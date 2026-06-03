@@ -48,6 +48,47 @@ public class GridManager : MonoBehaviour
                 _gridNode[x, y] = node;
             }
         }
+        IsInitialized = true;
+    }
+#if UNITY_EDITOR
+    private void PopulateDebugList()
+    {
+        //clears debug list of gridnodes, for each prexisting one get its info and sets it to the new gridnode
+        //for debug stuff
+        AllNodes.Clear();
+        for (int x = 0; x < _gridSettings.GridSizeX; x++)
+        {
+            for (int y = 0; y < _gridSettings.GridSizeY; y++)
+            {
+                GridNode node = _gridNode[x, y];
+                AllNodes.Add(new GridNode
+                {
+                    Name = $"Cell_{(x + _gridSettings.GridSizeX * x + y)}",
+                    WorldPos = node.WorldPos,
+                    Walkable = node.Walkable,
+                    Weight = node.Weight
+                });
+            }
+
+        }
+    }
+#endif
+
+    //retrieves gridnode data efficiently
+    public GridNode GetNode(int x, int y)
+    {
+        //checks if function arguemetns are out og bounds
+        //otherwise returns the right node
+        if(x < 0 || x >= _gridSettings.GridSizeX || y < 0 || y >= _gridSettings.GridSizeY)
+        {
+            throw new System.IndexOutOfRangeException("Grid mode indices out of range");
+        }
+        return _gridNode[x, y];
     }
 
+    //for if nodes are walkable, not used at the moment
+    //public void SetWalkable(int x, int y, bool walkable)
+    //{
+    //    _gridNode[x, y].Walkable = walkable;
+    //}
 }
