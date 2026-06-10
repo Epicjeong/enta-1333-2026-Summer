@@ -48,4 +48,9 @@ public class PathFinder : MonoBehaviour
 
     //Viusalize instance
     private NaivePathFinderVisualizer _naivePathFinderVisualizer;
+
+    private System.Random _seed;
+
+    //Visualize state
+    private HashSet
 }
