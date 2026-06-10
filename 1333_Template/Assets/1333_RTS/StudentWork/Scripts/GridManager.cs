@@ -43,8 +43,6 @@ public class GridManager : MonoBehaviour
                 {
                     Name = $"Cell_{(x + _gridSettings.GridSizeX * x + y)}",
                     WorldPos = worldPos,
-                    Walkable = true, //all nodes now default to walkable
-                    Weight = 1 //default weight for terrain
                 };
 
                 _gridNode[x, y] = node;
@@ -67,8 +65,6 @@ public class GridManager : MonoBehaviour
                 {
                     Name = $"Cell_{(x + _gridSettings.GridSizeX * x + y)}",
                     WorldPos = node.WorldPos,
-                    Walkable = node.Walkable,
-                    Weight = node.Weight
                 });
             }
 
@@ -99,7 +95,6 @@ public class GridManager : MonoBehaviour
     {
         if (_gridNode == null || _gridSettings == null) return;
 
-        Gizmos.color = Color.green;
 
         //draw node gizmos, size is 90% node size for visibility
         for (int x = 0; x < _gridSettings.GridSizeX; x++)
@@ -107,7 +102,6 @@ public class GridManager : MonoBehaviour
             for (int y = 0; y < _gridSettings.GridSizeY; y++)
             {
                 GridNode node = _gridNode[x, y];
-                Gizmos.color = node.Walkable ? Color.green : Color.red;
                 Gizmos.DrawWireCube(node.WorldPos, Vector3.one * GridSettings.NodeSize * 0.9f);
             }
 
