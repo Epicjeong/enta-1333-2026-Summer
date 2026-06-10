@@ -9,4 +9,9 @@ public struct GridNode
     public Vector3 WorldPos;
     public bool Walkable;
     public int Weight;
+
+    void Awake()
+    {
+
+    }
 }

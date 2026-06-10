@@ -15,6 +15,8 @@ public class GridManager : MonoBehaviour
     //flag to make sure grids initialized
     public bool IsInitialized { get; private set; } = false;
 
+    public bool _allowDiagonal;
+
 #if UNITY_EDITOR
     [Header("Debug for editor playmode")]
     [SerializeField] private List<GridNode> AllNodes = new();
