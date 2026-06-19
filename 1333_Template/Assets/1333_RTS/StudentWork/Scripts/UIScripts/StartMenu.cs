@@ -2,12 +2,19 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class SlidePanel : MonoBehaviour
+public class StartMenu : MonoBehaviour
 {
     [SerializeField] private float _openPos;
     [SerializeField] private float _closePos;
     private RectTransform _rectTransform;
     [SerializeField] private float _transitionDuration;
+
+    [SerializeField] private Button _startButton;
+    [SerializeField] private Button _settingsButton;
+    //private RectTransform _startTransform;
+    //private RectTransform _settingsTransform;
+
+
 
     private void Awake()
     {
@@ -21,7 +28,6 @@ public class SlidePanel : MonoBehaviour
         _rectTransform.DOAnchorPosX(_openPos, _transitionDuration).SetEase(Ease.OutBounce).OnComplete(() =>
         {
             GetComponent<CanvasGroup>().blocksRaycasts = true;
-            GetComponentInChildren<Button>().GetComponent<RectTransform>().DOAnchorPosY(0f, 0.5f).SetEase(Ease.InQuad);
         });
     }
 
@@ -30,7 +36,6 @@ public class SlidePanel : MonoBehaviour
         GetComponent<CanvasGroup>().blocksRaycasts = false;
         _rectTransform.DOAnchorPosX(_closePos, _transitionDuration).SetEase(Ease.InQuad).OnComplete(() =>
         {
-            GetComponentInChildren<Button>().GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -160);
 
         });
 
