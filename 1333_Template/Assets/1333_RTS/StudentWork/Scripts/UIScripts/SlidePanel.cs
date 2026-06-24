@@ -53,8 +53,8 @@ public class SlidePanel : MonoBehaviour
         _rectTransform.DOAnchorPosX(_closePos, _transitionDuration).SetEase(Ease.InQuad).OnComplete(() =>
         {
             _unpauseTransform.anchoredPosition = new Vector3(-330, _unpauseTransform.position.y);
-            _mainMenuTransform.anchoredPosition = new Vector3(-330, _unpauseTransform.position.y);
-            _settingsTransform.anchoredPosition = new Vector3(-330, _unpauseTransform.position.y);
+            _mainMenuTransform.anchoredPosition = new Vector3(-330, _mainMenuTransform.position.y);
+            _settingsTransform.anchoredPosition = new Vector3(-330, _settingsTransform.position.y);
             ShowPauseButton();
 
         });
