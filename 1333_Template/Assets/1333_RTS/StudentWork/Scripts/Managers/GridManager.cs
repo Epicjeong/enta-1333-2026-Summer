@@ -70,6 +70,27 @@ public class GridManager : MonoBehaviour
 
         }
     }
+
+    //cutom editor button that calls populate debug list and resets gui
+    [CustomEditor(typeof(GridManager))]
+    public class GridManagerEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            //draws normal inspector gui
+            DrawDefaultInspector();
+
+            //looks at gridmanager attached to and calls populatedebuglisst function
+            GridManager grid = (GridManager)target;
+            if (grid.IsInitialized)
+            {
+                if (GUILayout.Button("refresh grid debug view"))
+                {
+                    grid.PopulateDebugList();
+                }
+            }
+        }
+    }
 #endif
 
     //retrieves gridnode data efficiently
@@ -108,24 +129,5 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    //cutom editor button that calls populate debug list and resets gui
-    [CustomEditor(typeof(GridManager))]
-    public class GridManagerEditor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            //draws normal inspector gui
-            DrawDefaultInspector();
-
-            //looks at gridmanager attached to and calls populatedebuglisst function
-            GridManager grid = (GridManager)target;
-            if(grid.IsInitialized)
-            {
-                if (GUILayout.Button("refresh grid debug view"))
-                {
-                    grid.PopulateDebugList();
-                }
-            }
-        }
-    }
+    
 }
