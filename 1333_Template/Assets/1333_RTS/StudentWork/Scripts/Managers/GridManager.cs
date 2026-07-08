@@ -21,8 +21,8 @@ public class GridManager : MonoBehaviour
 #if UNITY_EDITOR
     [Header("Debug for editor playmode")]
     [SerializeField] private List<GridNode> AllNodes = new();
-    [SerializeField] private bool showGrid = true;
-    [SerializeField] private bool showNodeInfo;
+    [SerializeField] private bool _showGrid = true;
+    [SerializeField] private bool _showNodeInfo;
 #endif
 
     public void InitializeGrid()
@@ -91,11 +91,8 @@ public class GridManager : MonoBehaviour
             for (int y = 0; y < _gridSettings.GridSizeY; y++)
             {
                 GridNode node = _gridNode[x, y];
-                AllNodes.Add(new GridNode
-                {
-                    Name = $"Cell_{(x + _gridSettings.GridSizeX * x + y)}",
-                    WorldPos = node.WorldPos,
-                });
+                AllNodes.Add(_gridNode[x, y]);
+
             }
 
         }
@@ -128,7 +125,7 @@ public class GridManager : MonoBehaviour
     {
         //checks if function arguemetns are out og bounds
         //otherwise returns the right node
-        if(x < 0 || x >= _gridSettings.GridSizeX || y < 0 || y >= _gridSettings.GridSizeY)
+        if(IsValidCoord(x, y))
         {
             throw new System.IndexOutOfRangeException("Grid mode indices out of range");
         }
@@ -144,7 +141,7 @@ public class GridManager : MonoBehaviour
     //visual gizmos togglable in editor
     private void OnDrawGizmos()
     {
-        if (_gridNode == null || _gridSettings == null) return;
+        if (!_showGrid || _gridNode == null || _gridSettings == null) return;
 
 
         //draw node gizmos, size is 90% node size for visibility
@@ -153,7 +150,13 @@ public class GridManager : MonoBehaviour
             for (int y = 0; y < _gridSettings.GridSizeY; y++)
             {
                 GridNode node = _gridNode[x, y];
+                Gizmos.color = node.Color;
                 Gizmos.DrawWireCube(node.WorldPos, Vector3.one * GridSettings.NodeSize * 0.9f);
+#if UNITY_EDITOR
+                if (_showNodeInfo)
+
+                    Handles.Label(node.WorldPos + Vector3.up * .1f, $"{x}, {y}");
+#endif
             }
 
         }

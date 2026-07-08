@@ -66,4 +66,15 @@ public class PathFinder : MonoBehaviour
     private List<Vector2Int> _exploreOrder;
     private Vector2Int? _currentNode;
     private List<Vector2Int> _currentNeighbors;
+
+    private void Awake()
+    {
+        if (_gridManager == null)
+        {
+            Debug.LogError("iuasdoihsadoihdsfoih");
+
+            enabled = false;
+            return;
+        }
+    }
 }
