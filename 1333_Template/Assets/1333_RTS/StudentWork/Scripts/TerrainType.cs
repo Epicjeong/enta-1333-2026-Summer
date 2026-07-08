@@ -3,10 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TerrainType", menuName = "TerrainType")]
 public class TerrainType : ScriptableObject
 {
-    [SerializeField] private string _terrainName;
-    [SerializeField] private Color _color;
-    [SerializeField] private bool _walkable;
-    [SerializeField] private int _moveCost;
+    [SerializeField] private string _terrainName = "Default";
+    [SerializeField] private Color _color = Color.green;
+    [SerializeField] private bool _walkable = true;
+    [SerializeField] private int _moveCost = 1;
     [SerializeField] private Texture2D _terrainTexture;
 
     public string TerrainName => _terrainName;

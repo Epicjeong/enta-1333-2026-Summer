@@ -8,6 +8,7 @@ public class GridManager : MonoBehaviour
     //variable for grid settings
     [SerializeField] private GridSettings _gridSettings;
     public GridSettings GridSettings => _gridSettings;
+    [SerializeField] private TerrainType _defaultTerrainType;
 
     //varibales for grid array to place nodes
     private GridNode[,] _gridNode;
@@ -20,6 +21,8 @@ public class GridManager : MonoBehaviour
 #if UNITY_EDITOR
     [Header("Debug for editor playmode")]
     [SerializeField] private List<GridNode> AllNodes = new();
+    [SerializeField] private bool showGrid = true;
+    [SerializeField] private bool showNodeInfo;
 #endif
 
     public void InitializeGrid()
@@ -43,12 +46,39 @@ public class GridManager : MonoBehaviour
                 {
                     Name = $"Cell_{(x + _gridSettings.GridSizeX * x + y)}",
                     WorldPos = worldPos,
+                    _terrainType = _defaultTerrainType
                 };
 
                 _gridNode[x, y] = node;
             }
         }
         IsInitialized = true;
+    }
+
+    public void SetTerrainType(int x, int y, TerrainType terrain)
+    {
+        if (!IsValidCoord(x, y)) return;
+        //pull node from array and sets terraintype, then put back in array
+        GridNode node = _gridNode[x, y];
+        node._terrainType = terrain;
+        _gridNode[x, y] = node;
+    }
+
+    private bool IsValidCoord(int x, int y)
+    {
+        return x >=0 && x < _gridSettings.GridSizeX && y >= 0 && y < _gridSettings.GridSizeY;
+    }
+
+    public bool IsWalkable(Vector2Int coord)
+    {
+        if(IsValidCoord(coord.x, coord.y)) return true;
+        return _gridNode[coord.x, coord.y].Walkable;
+    }
+
+    public float GetNodeWeight(Vector2Int coord)
+    {
+        if (!IsValidCoord(coord.x, coord.y)) return float.MaxValue;
+        return _gridNode[coord.x, coord.y].Weight;
     }
 #if UNITY_EDITOR
     private void PopulateDebugList()
