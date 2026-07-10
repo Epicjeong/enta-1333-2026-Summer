@@ -76,5 +76,28 @@ public class PathFinder : MonoBehaviour
             enabled = false;
             return;
         }
+        //_naivePathFinder = new NaivePathFinder(GetNeighbors, WaitForNextStep);
+    }
+
+    private bool IsValidCoord(Vector2Int coord)
+    {
+        return coord.x >= 0 && coord.x < _gridManager.GridSettings.GridSizeX &&
+               coord.y >= 0 && coord.y < _gridManager.GridSettings.GridSizeY;
+    }
+
+    private List<Vector2Int> GetNeighbors(Vector2Int coord)
+    {
+        List<Vector2Int> neighbors = new List<Vector2Int>();
+        int[] dx = {-1, 0, 1, 0, -1, -1, 1, 1 };
+        int[] dy = {0, 1, 0, -1, -1, 1, -1, 1 };
+        for (int i = 0; i < 4; i++)
+        {
+            Vector2Int neighbor = new Vector2Int(coord.x + dx[i], coord.y + dy[i]);
+            if (IsValidCoord(neighbor) && _gridManager.IsWalkable(neighbor))
+            {
+                neighbors.Add(neighbor);
+            }
+        }
+        return neighbors;
     }
 }
